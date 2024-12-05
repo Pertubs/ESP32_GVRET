@@ -70,7 +70,7 @@ public:
     bool getMonitorMode();
 
 private:
-    BluetoothSerial serialBT;
+    //BluetoothSerial serialBT;
     WiFiClient *mClient;
     CommBuffer txBuffer;
     char incomingBuffer[128]; //storage for one incoming line

@@ -188,6 +188,9 @@ void Logger::log(LogLevel level, const char *format, va_list args)
     case Error:
         Serial.print("ERROR");
         break;
+    case Off:
+        Serial.print("OFF");
+        break;
     }
 
     Serial.print(": ");
@@ -261,7 +264,7 @@ void Logger::logMessage(const char *format, va_list args)
             }
 
             if (*format == 'l') {
-                writeLen = sprintf((char*)&buffer[buffLen], "%l", va_arg(args, long));
+                writeLen = sprintf((char*)&buffer[buffLen], "%ld", va_arg(args, long));
                 buffLen += writeLen;
                 continue;
             }

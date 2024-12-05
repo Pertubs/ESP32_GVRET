@@ -57,8 +57,9 @@ ELM327Emu::ELM327Emu()
 /*
  * Initialization of hardware and parameters
  */
-void ELM327Emu::setup() {
-    serialBT.begin(settings.btName);
+void ELM327Emu::setup() 
+{
+    //serialBT.begin(settings.btName);
 }
 
 void ELM327Emu::setWiFiClient(WiFiClient *client)
@@ -95,8 +96,8 @@ void ELM327Emu::loop() {
     int incoming;
     if (!mClient) //bluetooth
     {
-        while (serialBT.available()) {
-            incoming = serialBT.read();
+        while (false/*serialBT.available()*/) {
+            //incoming = serialBT.read();
             if (incoming != -1) { //and there is no reason it should be -1
                 if (incoming == 13 || ibWritePtr > 126) { // on CR or full buffer, process the line
                     incomingBuffer[ibWritePtr] = 0; //null terminate the string
@@ -157,7 +158,7 @@ void ELM327Emu::sendTxBuffer()
     }
     else //bluetooth then
     {
-        serialBT.write(txBuffer.getBufferedBytes(), txBuffer.numAvailableBytes());
+        //serialBT.write(txBuffer.getBufferedBytes(), txBuffer.numAvailableBytes());
     }
     txBuffer.clearBufferedBytes();
 }

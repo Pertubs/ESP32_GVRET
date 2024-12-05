@@ -79,7 +79,7 @@ void CommBuffer::sendFrameToBuffer(CAN_FRAME &frame, int whichBus)
         transmitBuffer[transmitBufferLength++] = temp;
         //Serial.write(buff, 12 + frame.length);
     } else {
-        writtenBytes = sprintf((char *)&transmitBuffer[transmitBufferLength], "%d - %x", micros(), frame.id);
+        writtenBytes = sprintf((char *)&transmitBuffer[transmitBufferLength], "%lu - %x", micros(), frame.id);
         transmitBufferLength += writtenBytes;
         if (frame.extended) sprintf((char *)&transmitBuffer[transmitBufferLength], " X ");
         else sprintf((char *)&transmitBuffer[transmitBufferLength], " S ");
@@ -122,7 +122,7 @@ void CommBuffer::sendFrameToBuffer(CAN_FRAME_FD &frame, int whichBus)
         transmitBuffer[transmitBufferLength++] = temp;
         //Serial.write(buff, 12 + frame.length);
     } else {
-        writtenBytes = sprintf((char *)&transmitBuffer[transmitBufferLength], "%d - %x", micros(), frame.id);
+        writtenBytes = sprintf((char *)&transmitBuffer[transmitBufferLength], "%lu - %x", micros(), frame.id);
         transmitBufferLength += writtenBytes;
         if (frame.extended) sprintf((char *)&transmitBuffer[transmitBufferLength], " X ");
         else sprintf((char *)&transmitBuffer[transmitBufferLength], " S ");
