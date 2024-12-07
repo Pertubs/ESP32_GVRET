@@ -19,4 +19,15 @@ public:
         for (int i = 0; i < length; i++) result += parseHexCharacter(str[i]) << (4 * (length - i - 1));
         return result;
     }
+
+    float Safe_Division(float numerator, float denominator, float default_value = 0.0f) 
+    {
+    if (denominator == 0.0f) {
+        // Divisor é zero, retorna o valor padrão para evitar crash
+        return default_value;
+    }
+    return numerator / denominator;
+}
+
+
 };

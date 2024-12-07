@@ -10,6 +10,7 @@ void handleCAN0CB(CAN_FRAME *frame);
 void SendFrame(const CAN_FRAME &frame, int MessageFormat);
 void Init_CAN();
 void Read_CAN();
+void Update_GVRET();
 void Init_WIFI();
 void Init_Serial();
 void Handshake();

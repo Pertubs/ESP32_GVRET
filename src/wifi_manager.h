@@ -10,6 +10,7 @@ public:
     WiFiManager();
     void setup();
     void loop();
+    void sendDataToClients(uint8_t* buff, size_t Index);
     void sendBufferedData();
     void attemptOTAUpdate();
     

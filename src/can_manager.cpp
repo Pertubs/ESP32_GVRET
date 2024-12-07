@@ -6,12 +6,19 @@
 #include "gvret_comm.h"
 #include "lawicel.h"
 #include "ELM327_Emulator.h"
+#include "utility.h"
 
+Utility _Utility = Utility();
 CANManager::CANManager()
 {
-
+    
 }
 
+
+void CANManager::SimpleSetup(int baudrate = 250000)
+{
+    Can0.begin(baudrate);
+}
 void CANManager::setup()
 {
     for (int i = 0; i < SysSettings.numBuses; i++)
@@ -153,10 +160,11 @@ void CANManager::loop()
 
     if (millis() > (busLoadTimer + 250)) {
         busLoadTimer = millis();
-        busLoad[0].busloadPercentage = ((busLoad[0].busloadPercentage * 3) + (((busLoad[0].bitsSoFar * 1000) / busLoad[0].bitsPerQuarter) / 10)) / 4;
+        //busLoad[0].busloadPercentage = ((busLoad[0].busloadPercentage * 3) + (((busLoad[0].bitsSoFar * 1000) / busLoad[0].bitsPerQuarter) / 10)) / 4;
+        busLoad[0].busloadPercentage = _Utility.Safe_Division( _Utility.Safe_Division( (busLoad[0].busloadPercentage * 3) + (busLoad[0].bitsSoFar * 1000), busLoad[0].bitsPerQuarter) , 4);
         //Force busload percentage to be at least 1% if any traffic exists at all. This forces the LED to light up for any traffic.
         if (busLoad[0].busloadPercentage == 0 && busLoad[0].bitsSoFar > 0) busLoad[0].busloadPercentage = 1;
-        busLoad[0].bitsPerQuarter = settings.canSettings[0].nomSpeed / 4;
+        busLoad[0].bitsPerQuarter = _Utility.Safe_Division(settings.canSettings[0].nomSpeed, 4);
         busLoad[0].bitsSoFar = 0;
         if(busLoad[0].busloadPercentage > busLoad[1].busloadPercentage){
             //updateBusloadLED(busLoad[0].busloadPercentage);

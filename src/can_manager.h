@@ -22,6 +22,7 @@ public:
     void displayFrame(CAN_FRAME &frame, int whichBus);
     void displayFrame(CAN_FRAME_FD &frame, int whichBus);
     void loop();
+    void SimpleSetup(int baudrate);
     void setup();
 
 private:

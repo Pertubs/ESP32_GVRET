@@ -46,10 +46,6 @@ void WiFiManager::setup()
         WiFi.mode(WIFI_AP);
         WiFi.setSleep(true);
         WiFi.softAP((const char *)settings.SSID, (const char *)settings.WPA2Key);
-        if (SysSettings.fancyLED)
-        {
-
-        }
     }
 }
 
@@ -79,6 +75,7 @@ void WiFiManager::loop()
             }
             if (settings.wifiMode == 2)
             {
+                Serial.println("Wifi Mode = 2");
                 Serial.print("Wifi setup as SSID ");
                 Serial.println((const char *)settings.SSID);
                 Serial.print("IP address: ");
@@ -102,9 +99,9 @@ void WiFiManager::loop()
                 // No authentication by default
                 //ArduinoOTA.setPassword("admin");
                 
-                ArduinoOTA
-                   .onStart([]() {
-                      String type;
+                ArduinoOTA.onStart([]() 
+                { 
+                    String type;
                       if (SysSettings.fancyLED)
                       {
 
@@ -121,7 +118,7 @@ void WiFiManager::loop()
                       Serial.println("\nEnd");
                    })
                    .onProgress([](unsigned int progress, unsigned int total) {
-                       Serial.printf("Progress: %u%%\r", (progress / (total / 100)));
+                       //Serial.printf("Progress: %u%%\r", (progress / (total / 100)));
                    })
                    .onError([](ota_error_t error) {
                       Serial.printf("Error[%u]: ", error);
@@ -270,6 +267,16 @@ void WiFiManager::loop()
     }
 
     ArduinoOTA.handle();
+}
+
+void WiFiManager::sendDataToClients(uint8_t* buff, size_t Index)
+{
+
+    if (SysSettings.isWifiConnected && SysSettings.clientNodes[0].connected()) //every second send out a broadcast ping
+    {
+        SysSettings.clientNodes[0].write(buff, Index);
+    }
+
 }
 
 void WiFiManager::sendBufferedData()
