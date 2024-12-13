@@ -168,11 +168,18 @@ void SendFrame(const CAN_FRAME &frame, int MessageFormat)
 void Init_CAN()
 { 
 
+
+    Serial.println("INICIADO COMO WIFI");
+    
      for (int i = 0; i < NUM_BUSES; i++) canBuses[i] = nullptr;
 
     nvPrefs.begin(PREF_NAME, false);
-    strcpy(settings.SSID, "Sniffer");
-    strcpy(settings.WPA2Key, "12345678");
+
+    //settings.wifiMode == 1 ? strcpy(settings.SSID, "simova-engenharia") : strcpy(settings.SSID, "Sniffer");+
+
+    strcpy(settings.SSID, "simova-engenharia");
+    strcpy(settings.WPA2Key, "1234engenharia");
+
     settings.useBinarySerialComm = nvPrefs.getBool("binarycomm", false);
     settings.logLevel = nvPrefs.getUChar("loglevel", 1); //info
     settings.wifiMode = nvPrefs.getUChar("wifiMode", 2); //Wifi defaults to creating an AP

@@ -16,12 +16,17 @@ WiFiManager::WiFiManager()
 }
 
 void WiFiManager::setup()
-{
+{   
+    //============================================================================ flag debug AP WIFI
+settings.wifiMode = 1;
+
     if (settings.wifiMode == 1) //connect to an AP
     {        
         WiFi.mode(WIFI_STA);
-        WiFi.setSleep(true); //sleeping could cause delays
+       // WiFi.setSleep(true); //sleeping could cause delays
         WiFi.begin((const char *)settings.SSID, (const char *)settings.WPA2Key);
+        Serial.print("SSID : "); Serial.print(settings.SSID);
+        Serial.print("Password : "); Serial.println(settings.WPA2Key);
 
         WiFiEventId_t eventID = WiFi.onEvent([](WiFiEvent_t event, WiFiEventInfo_t info) 
         {
