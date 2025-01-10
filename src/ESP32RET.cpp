@@ -24,6 +24,10 @@ char deviceName[20];
 char otaHost[40];
 char otaFilename[100];
 //================================================================OBJECTS
+
+//================================================================VARS
+bool WIFI_Mode = false; 
+
 CAN_COMMON *canBuses[NUM_BUSES];
 
 WiFiManager wifiManager;
@@ -168,7 +172,10 @@ void SendFrame(const CAN_FRAME &frame, int MessageFormat)
 void Init_CAN()
 { 
 
+    if(WIFI_Mode)
+    {
 
+    
     Serial.println("INICIADO COMO WIFI");
     
      for (int i = 0; i < NUM_BUSES; i++) canBuses[i] = nullptr;
@@ -203,14 +210,15 @@ void Init_CAN()
         strcpy(otaHost, "macchina.cc");
         strcpy(otaFilename, "/a0/files/a0ret.bin");
 
-
+    wifiManager.setup();
+}
 	CAN0.setCANPins(CAN_RX, CAN_TX);
     canManager.SimpleSetup(250000);
 	CAN0.setRXFilter(0, 0x100, 0x700, false);
 	CAN0.watchFor(); //allow everything else through
 	CAN0.setCallback(0, handleCAN0CB);
-    
-    wifiManager.setup();
+
+
 
 }
 
